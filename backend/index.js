@@ -1,8 +1,16 @@
 const express = require("express");
 const app = express();
 
-const PORT = 9000;
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
 
+const PORT = 7000;
+
+app.use(morgan("dev"));
+app.use(bodyParser.json());
+
+const cookBookViews = require("./src/views/cookbook.views");
+app.use(cookBookViews);
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

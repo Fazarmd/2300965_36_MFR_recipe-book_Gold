@@ -4,7 +4,8 @@
   "description": "Project Gold Binar",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./backend/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,10 @@
     "knex": "^2.5.1",
     "pg": "^8.11.3",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.20.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.1"
   }
 }
