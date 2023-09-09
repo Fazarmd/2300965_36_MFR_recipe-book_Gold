@@ -1,0 +1,7 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #395144; /* Soft Cream Background Color */
+  color: #f0ebce;
+}
