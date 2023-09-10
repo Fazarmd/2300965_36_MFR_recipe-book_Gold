@@ -5,3 +5,45 @@ body {
   background-color: #395144; /* Soft Cream Background Color */
   color: #f0ebce;
 }
+
+.content {
+  flex: 1;
+}
+
+.modal-content {
+  background-color: #f0ebce;
+  color: #000000;
+}
+
+.form-control {
+  background-color: #f0ebce;
+  border-color: #d9c8a4;
+}
+
+.category-style {
+  background-color: #f0ebce;
+  border-color: #d9c8a4;
+}
+
+.card {
+  height: 25rem;
+  background-color: #f0ebce;
+  color: #000000;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.recipe-image {
+  width: 100%;
+  height: 275px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+a {
+  text-decoration: none; /* Menghilangkan dekorasi tautan (termasuk garis bawah) */
+  color: inherit; /* Menyesuaikan warna teks dengan warna default */
+}

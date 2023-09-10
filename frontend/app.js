@@ -1,6 +1,6 @@
 const contentWrapper = document.querySelector("#recipe-list");
 const intializeApps = async () => {
-  const resp = await fetch("http://localhost:9000/api/v1/cook-book/recipes");
+  const resp = await fetch("http://localhost:7000/api/v1/cook-book/recipes");
   const jsonResp = await resp.json();
   const recipe = jsonResp.data.recipe;
 
@@ -10,6 +10,22 @@ const intializeApps = async () => {
 
     contentWrapper.innerHTML += recipeInfo;
   });
+
+  //event listener untuk tombol "Delete"
+  const deleteButtons = document.querySelectorAll(".btn-danger");
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", handleDelete);
+  });
+
+  //event listener untuk tombol "Edit"
+  const editButtons = document.querySelectorAll(".btn-primary");
+  editButtons.forEach((button) => {
+    button.addEventListener("click", handleEdit);
+  });
+
+  //event listener untuk tombol "Save Changes"
+  const saveEditButton = document.getElementById("saveEditButton");
+  saveEditButton.addEventListener("click", handleSaveEdit);
 };
 
 const handleSend = async () => {
@@ -41,7 +57,7 @@ const handleSend = async () => {
     body,
   };
 
-  const resp = await fetch("http://localhost:9000/api/v1/cook-book/add", requestOptions);
+  const resp = await fetch("http://localhost:7000/api/v1/cook-book/add", requestOptions);
   const respJson = await resp.json();
 
   console.log(respJson.data);
@@ -55,6 +71,117 @@ const handleSend = async () => {
   });
 
   addModal.hide();
+};
+
+const handleDelete = async (event) => {
+  const recipeId = event.target.getAttribute("data-id");
+  const confirmDelete = confirm("Apakah Anda yakin ingin menghapus resep ini?");
+
+  if (confirmDelete) {
+    try {
+      const resp = await fetch(`http://localhost:7000/api/v1/cook-book/delete/${recipeId}`, {
+        method: "DELETE",
+      });
+
+      if (resp.status === 200) {
+        // Hapus tampilan resep dari halaman
+        event.target.closest(".col-md-4").remove();
+        alert("Resep berhasil dihapus.");
+      } else {
+        alert("Gagal menghapus resep. Silakan coba lagi.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Terjadi kesalahan. Silakan coba lagi nanti.");
+    }
+  }
+};
+
+const handleEdit = async (event) => {
+  const recipeId = event.target.getAttribute("data-id");
+
+  try {
+    // Kirim permintaan GET ke endpoint API untuk mengambil data resep yang akan diedit
+    const resp = await fetch(`http://localhost:7000/api/v1/cook-book/recipes/${recipeId}`);
+    if (resp.status === 200) {
+      const data = await resp.json();
+
+      // Mengisi data resep ke dalam form edit
+      const formTitleEl = document.getElementById("editTitleInput");
+      const formIngredientsEl = document.getElementById("editIngredientsInput");
+      const formInstructionEl = document.getElementById("editInstructionInput");
+      const formCaptionEl = document.getElementById("editCaptionInput");
+
+      // Mengatur nilai-nilai form berdasarkan data yang diterima dari respons API
+      const recipeData = data.data[0]; // Mengambil data pertama dari array
+      formTitleEl.value = recipeData.title;
+      formIngredientsEl.value = recipeData.ingredients;
+      formInstructionEl.value = recipeData.instruction;
+      formCaptionEl.value = recipeData.caption;
+
+      // Setel nilai ID resep ke dalam atribut data-id pada tombol "Save Changes"
+      document.getElementById("saveEditButton").setAttribute("data-id", recipeId);
+
+      // Tampilkan modal edit
+      var editModal = new bootstrap.Modal(document.getElementById("editRecipeForm"));
+      editModal.show();
+    } else {
+      alert("Gagal mengambil data resep. Silakan coba lagi.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Terjadi kesalahan. Silakan coba lagi nanti.");
+  }
+};
+
+const handleSaveEdit = async () => {
+  const formTitleEl = document.getElementById("editTitleInput");
+  const formIngredientsEl = document.getElementById("editIngredientsInput");
+  const formInstructionEl = document.getElementById("editInstructionInput");
+  const formCaptionEl = document.getElementById("editCaptionInput");
+
+  const title = formTitleEl.value;
+  const ingredients = formIngredientsEl.value;
+  const instruction = formInstructionEl.value;
+  const caption = formCaptionEl.value;
+
+  const reqBody = {
+    title,
+    ingredients,
+    instruction,
+    caption,
+  };
+
+  const body = JSON.stringify(reqBody);
+
+  var headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const requestOptions = {
+    method: "PUT",
+    headers,
+    body,
+  };
+
+  try {
+    const recipeId = document.getElementById("saveEditButton").getAttribute("data-id");
+    const resp = await fetch(`http://localhost:7000/api/v1/cook-book/edit/${recipeId}`, requestOptions);
+    if (resp.status === 200) {
+      // notif berhasil
+      alert("Resep berhasil diperbarui.");
+      setTimeout(() => {
+        intializeApps();
+      }, 1000);
+      location.reload();
+    } else {
+      // notif gagal
+      alert("Gagal menyimpan perubahan resep. Silakan coba lagi.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    // notif gagal simpan
+    alert("Terjadi kesalahan saat menyimpan perubahan resep. Silakan coba lagi nanti.");
+  }
 };
 
 const generatorHtml = (id, title, ingredients, instruction, caption) => `

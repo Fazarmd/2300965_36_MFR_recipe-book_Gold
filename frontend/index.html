@@ -3,8 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
+    <title>Cookbook</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <!-- My CSS -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -47,7 +51,115 @@
         </div>
       </nav>
       <!-- End Navbar -->
+
+      <!-- Start Content List Recipe -->
+      <section id="list">
+        <div class="container">
+          <div class="row text-center mb-5">
+            <div class="col">
+              <h2><b>Recipe List</b></h2>
+              <p class="fs-4">Explore global flavors in our collection of international recipes and embark on a culinary journey and savor dishes from around the world.</p>
+            </div>
+          </div>
+          <!-- Start Card List -->
+          <main class="row" id="recipe-list">
+            <!-- Display Recipe -->
+          </main>
+          <!-- End Card List -->
+        </div>
+      </section>
+      <!-- End Content List Recipe -->
     </div>
+
+    <!-- Start Footer -->
+    <footer class="bg-danger text-white text-center pt-3">
+      <p>Created by <a href="https://github.com/Fazarmd" class="text-white fw-bold">Muhammad Faza Ramadhana</a></p>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Start PopUp Form -->
+    <div class="modal fade" id="recipeForm" tabindex="-1" aria-labelledby="recipeFormLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="recipeFormLabel">Create Recipe</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="titleInput" class="form-label">Title</label>
+                <input type="text" class="form-control" id="titleInput" placeholder="Enter recipe title" maxlength="150" />
+              </div>
+              <div class="mb-3">
+                <label for="ingredientsInput" class="form-label">Ingredients</label>
+                <textarea class="form-control" id="ingredientsInput" rows="3" placeholder="Enter ingredients separated by commas"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="instructionInput" class="form-label">Instruction</label>
+                <textarea class="form-control" id="instructionInput" rows="5" placeholder="Enter instruction steps separated by new lines"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="captionInput" class="form-label">Caption</label>
+                <input type="text" class="form-control" id="captionInput" placeholder="Enter caption" maxlength="150" />
+              </div>
+              <div class="mb-3">
+                <label for="categorySelect" class="form-label">Category</label>
+                <select class="form-select category-style" id="categorySelect">
+                  <option selected>Choose a category</option>
+                  <option value="1">Appetizer</option>
+                  <option value="2">Main Course</option>
+                  <option value="3">Dessert</option>
+                  <option value="4">Beverage</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button onclick="handleSend()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save Recipe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End PopUp Form -->
+
+    <!-- Start Edit Recipe Form -->
+    <div class="modal fade" id="editRecipeForm" tabindex="-1" aria-labelledby="editRecipeFormLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editRecipeFormLabel">Edit Recipe</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="editTitleInput" class="form-label">Title</label>
+                <input type="text" class="form-control" id="editTitleInput" placeholder="Enter recipe title" maxlength="150" />
+              </div>
+              <div class="mb-3">
+                <label for="editIngredientsInput" class="form-label">Ingredients</label>
+                <textarea class="form-control" id="editIngredientsInput" rows="3" placeholder="Enter ingredients separated by commas"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="editInstructionInput" class="form-label">Instruction</label>
+                <textarea class="form-control" id="editInstructionInput" rows="5" placeholder="Enter instruction steps separated by new lines"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="editCaptionInput" class="form-label">Caption</label>
+                <input type="text" class="form-control" id="editCaptionInput" placeholder="Enter caption" maxlength="150" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="saveEditButton" data-id="">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Edit Recipe Form -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
   <script src="app.js"></script>
