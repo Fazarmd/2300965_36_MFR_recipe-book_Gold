@@ -26,7 +26,6 @@ body {
 }
 
 .card {
-  height: 25rem;
   background-color: #f0ebce;
   color: #000000;
   overflow: hidden;
